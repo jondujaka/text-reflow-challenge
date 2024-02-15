@@ -1,0 +1,39 @@
+.carousel {
+  background: red;
+  width: auto;
+  text-align: left;
+}
+
+.button {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.nextButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.prevButton {
+  left: 20px;
+  position: fixed;
+  bottom: 20px;
+}
+.container {
+  position: relative;
+  width: 400px;
+  height: 800px;
+  overflow: hidden;
+  margin: 0 auto;
+
+  p {
+    flex-shrink: 0;
+    width: 400px;
+    position: absolute;
+    display: block;
+    margin: 0;
+    padding: 0 20px;
+  }
+}
