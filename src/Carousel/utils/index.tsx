@@ -18,6 +18,9 @@ const getPages = (
 
   let innerPage = page;
   const renderToken = (token: Token) => {
+    if (!token.text) {
+      return;
+    }
     const words = segmenter.segment(token.text)[Symbol.iterator]();
 
     for (const word of words) {
