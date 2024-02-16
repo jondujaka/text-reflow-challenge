@@ -1,7 +1,7 @@
 import { Token } from "fountain-js";
 import { createIntlSegmenterPolyfill } from "intl-segmenter-polyfill/dist/bundled";
 
-const getPages = async (
+const renderPages = async (
   container: HTMLDivElement,
   tokens: Token[],
   maxHeight: number,
@@ -83,4 +83,4 @@ const renderNewPage = (container: HTMLDivElement, index: number) => {
   return page;
 };
 
-export { getPages, clearPages };
+export { renderPages, clearPages };

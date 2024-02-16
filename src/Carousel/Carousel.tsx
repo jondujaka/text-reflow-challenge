@@ -2,7 +2,7 @@ import styles from "./Carousel.module.scss";
 import { Fountain } from "fountain-js";
 
 import chapter from "./data/chapter.fountain?raw";
-import { getPages, clearPages } from "./utils";
+import { renderPages, clearPages } from "./utils";
 import {
   useCallback,
   useEffect,
@@ -27,7 +27,7 @@ const Carousel = () => {
     }
 
     const height = carouselWrapperRef.current.clientHeight;
-    const nrPages = await getPages(
+    const nrPages = await renderPages(
       carouselWrapperRef.current,
       parsedChapter.tokens,
       height,
