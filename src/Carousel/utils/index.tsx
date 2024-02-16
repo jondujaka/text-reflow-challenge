@@ -15,35 +15,33 @@ const getPages = async (
 
   let pageIndex = 0;
 
-  const page = renderNewPage(container, pageIndex);
-
-  let innerPage = page;
+  let currentPage = renderNewPage(container, pageIndex);
   const renderToken = (token: Token) => {
     if (!token.text) {
       return;
     }
     const words = segmenter.segment(token.text)[Symbol.iterator]();
 
-    let paragraph = document.createElement("p");
-    innerPage.appendChild(paragraph);
+    let currentParagraph = document.createElement("p");
+    currentPage.appendChild(currentParagraph);
 
     for (const word of words) {
       const textNode = document.createTextNode(word.segment);
 
-      paragraph.appendChild(textNode);
+      currentParagraph.appendChild(textNode);
 
-      if (innerPage.clientHeight > maxHeight) {
+      if (currentPage.clientHeight > maxHeight) {
         pageIndex += 1;
 
         const { newPage, newParagraph } = renderLastNode(
           container,
-          paragraph,
+          currentParagraph,
           textNode,
           pageIndex,
         );
 
-        innerPage = newPage;
-        paragraph = newParagraph;
+        currentPage = newPage;
+        currentParagraph = newParagraph;
       }
     }
   };
