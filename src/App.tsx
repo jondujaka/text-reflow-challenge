@@ -1,11 +1,12 @@
-import './App.css'
-import Carousel from './Carousel/Carousel'
+import { useEffect } from "react";
+import "./App.css";
+import Carousel from "./Carousel/Carousel";
 
 function App() {
-
-  return (
-   <Carousel/>
-  )
+  useEffect(() => {
+    console.log("app");
+  }, []);
+  return <Carousel />;
 }
 
-export default App
+export default App;

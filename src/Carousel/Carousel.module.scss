@@ -10,27 +10,33 @@
   left: 0;
 }
 
-.nextButton {
+.buttons {
   position: fixed;
   bottom: 20px;
-  right: 20px;
-}
-
-.prevButton {
-  left: 20px;
-  position: fixed;
-  bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .container {
   position: relative;
   width: 400px;
-  height: 800px;
+  height: calc(100vh - 200px);
+  margin-top: 100px;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 50px auto 0;
 
-  p {
+  opacity: 1;
+  transition: 0.5s ease-in-out;
+
+  &.isLoading {
+    opacity: 0;
+  }
+
+  :global(.page) {
     flex-shrink: 0;
-    width: 400px;
+    width: 100%;
     position: absolute;
     display: block;
     margin: 0;

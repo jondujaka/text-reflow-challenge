@@ -2,33 +2,49 @@ import styles from "./Carousel.module.scss";
 import { Fountain } from "fountain-js";
 
 import chapter from "./data/chapter.fountain?raw";
-import { getPages } from "./utils";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { getPages, clearPages } from "./utils";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 const fountain = new Fountain();
 
 const Carousel = () => {
-  const parsedChapter = fountain.parse(chapter, true);
-
   const carouselWrapperRef = useRef<HTMLDivElement>(null);
-  const isDone = useRef<boolean>(false);
 
-  const handleGetPages = useCallback(() => {
-    if (!carouselWrapperRef.current || !parsedChapter?.tokens) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [nrPages, setNrPages] = useState(0);
+
+  const handleGetPages = useCallback(async () => {
+    const parsedChapter = fountain.parse(chapter, true);
+
+    if (!carouselWrapperRef.current) {
       return;
     }
 
     const height = carouselWrapperRef.current.clientHeight;
-    getPages(carouselWrapperRef.current, parsedChapter.tokens, height);
-    isDone.current = true;
-  }, [parsedChapter.tokens]);
+    const nrPages = await getPages(
+      carouselWrapperRef.current,
+      parsedChapter.tokens,
+      height,
+    );
 
-  useEffect(() => {
-    if (isDone.current) {
-      return;
-    }
-    handleGetPages();
+    setNrPages(nrPages);
+
+    setIsLoading(false);
   }, []);
+
+  useLayoutEffect(() => {
+    handleGetPages();
+
+    const container = carouselWrapperRef?.current;
+
+    return () => clearPages(container);
+  }, [handleGetPages]);
 
   const [slide, setSlide] = useState(0);
 
@@ -43,22 +59,34 @@ const Carousel = () => {
     });
   }, [slide]);
 
+  const containerClasses = `${styles.container} ${isLoading ? styles.isLoading : "not-loading"}`;
+
+  const handleNext = () => {
+    if (slide === nrPages) {
+      return;
+    }
+
+    setSlide((slide) => slide + 1);
+  };
+
+  const handlePrev = () => {
+    if (slide === 0) {
+      return;
+    }
+
+    setSlide((slide) => slide - 1);
+  };
+
   return (
     <>
-      <div className={styles.container} ref={carouselWrapperRef}></div>
+      <div className={containerClasses} ref={carouselWrapperRef} />
 
-      <button
-        className={styles.prevButton}
-        onClick={() => setSlide((prev) => prev - 1)}
-      >
-        Prev
-      </button>
-      <button
-        className={styles.nextButton}
-        onClick={() => setSlide((prev) => prev + 1)}
-      >
-        Next
-      </button>
+      {nrPages > 0 && (
+        <div className={styles.buttons}>
+          <button onClick={handlePrev}>Prevs</button>
+          <button onClick={handleNext}>Next</button>
+        </div>
+      )}
     </>
   );
 };
