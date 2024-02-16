@@ -39,7 +39,9 @@ So I found out about [Intl.Segmenter](https://developer.mozilla.org/en-US/docs/W
 
 **Render the text to fit exactly on the page**
 I haven't really had experience with this before, so I had to think a bit about it. I figured that the most straightforward approach would be to render the text word by word, check the height of the rendered text, and adjust based on that.
+
 So the `renderPages()` method does just that. Splits the text into words, then on each word iteration checks for the rendered height of the page div. If the height exceeds the limit, removes the last word, and instead renderes it in the next page, and continues with the next words.
+
 This also took some time figuring out some intricacies, such as handling this carry-over word, rendering paragraphs properly so that formatting would be preserved, etc.
 
 ## Next
