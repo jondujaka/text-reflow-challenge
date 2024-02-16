@@ -24,7 +24,7 @@ This was a very interesting challenge, as I was always aware of the challenges o
 In the current state, this code is able to:
 
 - Parse a .fountain file to json
-- Render the contents in a word by word basis
+- Flows the text automatically, to perfectly fit the defined pages size
 - Generates "page" divs automatically, based on the set-height of the parent container
 - Preserves formatting, line-breaks
 - Provides Previous/Next buttons to navigate between pages
