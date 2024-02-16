@@ -11,7 +11,6 @@ const getPages = async (
   const segmenter = new Segmenter("nl", { granularity: "word" });
 
   const startTime = performance.now();
-  document.body.appendChild(container);
 
   let pageIndex = 0;
 
