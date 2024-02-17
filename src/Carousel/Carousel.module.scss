@@ -20,8 +20,9 @@
   transform: translateX(-50%);
 }
 .container {
+
   position: relative;
-  width: 400px;
+  width: 450px;
   height: calc(100vh - 200px);
   margin-top: 100px;
   overflow: hidden;
@@ -41,5 +42,11 @@
     display: block;
     margin: 0;
     padding: 0 20px;
+
+    p {
+      hyphens: auto;
+      text-indent: 1em;
+      margin: .5em 0;
+    }
   }
 }

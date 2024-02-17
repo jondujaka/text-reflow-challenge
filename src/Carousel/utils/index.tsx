@@ -1,11 +1,11 @@
 import { Token } from "fountain-js";
 import { createIntlSegmenterPolyfill } from "intl-segmenter-polyfill/dist/bundled";
 
-const renderPages = async (
-  container: HTMLDivElement,
-  tokens: Token[],
-  maxHeight: number,
-) => {
+let hasRendered = false;
+const renderPages = async (container: HTMLDivElement, tokens: Token[]) => {
+  if (hasRendered) {
+    return;
+  }
   const Segmenter = await createIntlSegmenterPolyfill();
 
   const segmenter = new Segmenter("nl", { granularity: "word" });
@@ -14,7 +14,11 @@ const renderPages = async (
 
   let pageIndex = 0;
 
+  const maxHeight = container.clientHeight;
+
   let currentPage = renderNewPage(container, pageIndex);
+
+  // console.log(tokens);
   const renderToken = (token: Token) => {
     if (!token.text) {
       return;
@@ -25,7 +29,16 @@ const renderPages = async (
     currentPage.appendChild(currentParagraph);
 
     for (const word of words) {
-      const textNode = document.createTextNode(word.segment);
+      if (word.index > 60 && word.index < 90) {
+        console.log(word);
+      }
+
+      let textNode;
+      if (word.segment === "\n") {
+        textNode = document.createElement("br");
+      } else {
+        textNode = document.createTextNode(word.segment);
+      }
 
       currentParagraph.appendChild(textNode);
 
@@ -49,6 +62,7 @@ const renderPages = async (
 
   const duration = performance.now() - startTime;
   console.log("Text reflowing complete in: ", duration);
+  hasRendered = true;
   return pageIndex;
 };
 
@@ -62,7 +76,7 @@ const clearPages = (container?: HTMLDivElement | null) => {
 const renderLastNode = (
   container: HTMLDivElement,
   previousParagraph: HTMLParagraphElement,
-  node: Text,
+  node: Text | HTMLBRElement,
   pageIndex: number,
 ) => {
   previousParagraph.removeChild(node);
@@ -76,9 +90,10 @@ const renderLastNode = (
 };
 
 const renderNewPage = (container: HTMLDivElement, index: number) => {
+  const width = container.clientWidth;
   const page = document.createElement("div");
   page.className = "page";
-  page.style.left = `${index * 400}px`;
+  page.style.left = `${index * width}px`;
   container.appendChild(page);
   return page;
 };
