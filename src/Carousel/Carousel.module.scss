@@ -24,6 +24,7 @@
   position: relative;
   width: 450px;
   height: calc(100vh - 200px);
+  max-height: 800px;
   margin-top: 100px;
   overflow: hidden;
   margin: 50px auto 0;
@@ -44,10 +45,11 @@
     padding: 0 20px;
 
     p {
-      font-family: 'Serif';
+      font: 1.125rem/1.4 "Garamond", serif;
       hyphens: auto;
       text-indent: 1em;
       margin: .5em 0;
+      text-rendering: optimizeLegibility;
     }
   }
 }
