@@ -1,4 +1,3 @@
-import "./App.css";
 import Carousel from "./Carousel/Carousel";
 
 function App() {
