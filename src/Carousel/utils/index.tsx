@@ -1,11 +1,7 @@
 import { Token } from "fountain-js";
 import { createIntlSegmenterPolyfill } from "intl-segmenter-polyfill/dist/bundled";
 
-let hasRendered = false;
 const renderPages = async (container: HTMLDivElement, tokens: Token[]) => {
-  if (hasRendered) {
-    return;
-  }
   const Segmenter = await createIntlSegmenterPolyfill();
 
   const segmenter = new Segmenter("nl", { granularity: "word" });
@@ -18,7 +14,6 @@ const renderPages = async (container: HTMLDivElement, tokens: Token[]) => {
 
   let currentPage = renderNewPage(container, pageIndex);
 
-  // console.log(tokens);
   const renderToken = (token: Token) => {
     if (!token.text) {
       return;
@@ -29,16 +24,11 @@ const renderPages = async (container: HTMLDivElement, tokens: Token[]) => {
     currentPage.appendChild(currentParagraph);
 
     for (const word of words) {
-      if (word.index > 60 && word.index < 90) {
-        console.log(word);
-      }
+      const isLineBreak = word.segment === "\n";
 
-      let textNode;
-      if (word.segment === "\n") {
-        textNode = document.createElement("br");
-      } else {
-        textNode = document.createTextNode(word.segment);
-      }
+      const textNode = isLineBreak
+        ? document.createElement("br")
+        : document.createTextNode(word.segment);
 
       currentParagraph.appendChild(textNode);
 
@@ -62,7 +52,6 @@ const renderPages = async (container: HTMLDivElement, tokens: Token[]) => {
 
   const duration = performance.now() - startTime;
   console.log("Text reflowing complete in: ", duration);
-  hasRendered = true;
   return pageIndex;
 };
 
@@ -73,6 +62,12 @@ const clearPages = (container?: HTMLDivElement | null) => {
   container.innerHTML = "";
 };
 
+/*
+ * - Removes the node from the previous paragraph
+ * - Creates a new page and paragraph
+ * - Adds the node to the new paragraph
+ * - Returns the new page and paragraph
+ */
 const renderLastNode = (
   container: HTMLDivElement,
   previousParagraph: HTMLParagraphElement,
@@ -89,6 +84,7 @@ const renderLastNode = (
   return { newPage, newParagraph };
 };
 
+// Renders a new page and adds it to the container
 const renderNewPage = (container: HTMLDivElement, index: number) => {
   const width = container.clientWidth;
   const page = document.createElement("div");

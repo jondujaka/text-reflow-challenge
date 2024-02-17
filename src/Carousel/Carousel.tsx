@@ -26,11 +26,9 @@ const Carousel = () => {
       return;
     }
 
-    const height = carouselWrapperRef.current.clientHeight;
     const nrPages = await renderPages(
       carouselWrapperRef.current,
       parsedChapter.tokens,
-      height,
     );
 
     setNrPages(nrPages);
