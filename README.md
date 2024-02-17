@@ -1,10 +1,10 @@
-# Immer Challenge
+# Text Reflow Challenge
 
-This repository includes the code challenge for the application to Immer. If you're reading this, you are probably from the Immer team and know what this is about.
+This repository includes the text-reflow code challenge. If you're reading this, you probably know what this is.
 
 ## Access
 
-You can access a live version of this repo at https://immer-challenge.vercel.app
+You can access a live version of this repo at https://textreflow-challenge.vercel.app
 
 ## Running locally
 
