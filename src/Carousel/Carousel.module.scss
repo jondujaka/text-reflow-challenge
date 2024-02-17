@@ -42,13 +42,14 @@
     position: absolute;
     display: block;
     margin: 0;
-    padding: 0 20px;
+   
 
     p {
       font: 1.2rem/1.4 "Garamond", serif;
       hyphens: auto;
-      text-indent: 1em;
       margin: .5em 0;
+      padding: 0 20px;
+      text-indent: 1em;
       text-rendering: optimizeLegibility;
     }
   }
